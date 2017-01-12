@@ -34,10 +34,10 @@ void line::update(sf::Event event) {
 
     if(sf::Mouse::isButtonPressed(sf::Mouse::Left) && rect.contains(event.mouseMove.x, event.mouseMove.y)) {
 
-        lineShape[0].position.x = event.mouseMove.x - (position.x / 2);
-        lineShape[0].position.y = event.mouseMove.y - (position.y / 2);
-        lineShape[1].position.x = event.mouseMove.x + endPosition.x;
-        lineShape[1].position.y = event.mouseMove.y + endPosition.y;
+        lineShape[1].position.x = event.mouseMove.x + (lineShape[1].position.x - lineShape[0].position.x) - 10;
+        lineShape[1].position.y = event.mouseMove.y + (lineShape[1].position.y - lineShape[0].position.y) - 10;
+        lineShape[0].position.x = event.mouseMove.x - 10;
+        lineShape[0].position.y = event.mouseMove.y - 10;
 
         rect.left = int(lineShape[0].position.x);
         rect.top = int(lineShape[0].position.y);

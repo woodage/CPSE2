@@ -44,8 +44,6 @@ std::ofstream & operator<<( std::ofstream & input, const sf::Color rhs ){
     };
 
     for( auto const & color : colors ){
-
-
         if( color.color.toInteger() == rhs.toInteger() ) {
             input << color.name;
             return input;

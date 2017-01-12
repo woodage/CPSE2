@@ -9,11 +9,19 @@ Client::Client(Game &game): game(game) {
 }
 
 void Client::update() {
+
+    if(game.isWinner()) {
+        std::cout << "Speler: " << (int(!game.getIsPlayerOne()) + 1) << " heeft gewonnen.";
+    }
+
+    char inputConsole;
+    std::cin >> inputConsole;
+
     if(!game.isWinner()) {
         // with mouse interface
-        if (sf::Mouse().isButtonPressed(sf::Mouse::Left)) {
+        if (inputConsole >= '1' && inputConsole <= '9') {
             for (auto &tile : game.getTiles()) {
-                if (tile.isClicked() && !tile.isUsed()) {
+                if (tile.getId() == (inputConsole - 48) && !tile.isUsed()) {
                     command = new PlayerSetCommand(game, tile);
                     command->execute();
                     commands.push_back(command);
@@ -21,7 +29,8 @@ void Client::update() {
             }
         }
     }
-    if(sf::Mouse().isButtonPressed(sf::Mouse::Right)) {
+
+    if(inputConsole == 'u') {
         if(!commands.empty()) {
             commands.back()->undo();
             commands.pop_back();

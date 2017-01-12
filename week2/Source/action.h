@@ -16,7 +16,6 @@ private:
     std::function< void() > work;
 
 public:
-
     Action(
             std::function< void() > work
     ) :

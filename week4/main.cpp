@@ -6,6 +6,21 @@
 
 using namespace std;
 
+template<typename A, typename B>
+std::pair<B,A> flip_pair(const std::pair<A,B> &p)
+{
+    return std::pair<B,A>(p.second, p.first);
+}
+
+template<typename A, typename B>
+std::multimap<B,A> flip_map(const std::map<A,B> &src)
+{
+    std::multimap<B,A> dst;
+    std::transform(src.begin(), src.end(), std::inserter(dst, dst.begin()),
+                   flip_pair<A,B>);
+    return dst;
+}
+
 int main() {
 
     // open file
@@ -38,10 +53,41 @@ int main() {
     /* QUESTION 5 COMPLETED */
     for_each(my_vector.begin(), my_vector.end(), [](char &c){ if(c >= 'A' && c <= 'Z') c-= 32; });
 
-    /* QUESTION 6 and 7 COMPLETED */
-    // not the efficient way because it sort 26 time now. But in my opinion clean code.
+
+    // create map for counted alphabetic chars
+    map<char, int> alphaCounted;
+    map<char, int> alphaTemp;
+    vector<char>alphaSortKey;
+    vector<int> alphaSortValue;
+
     for(char i = 'a'; i <= 'z'; i++) {
-        cout << "character '" << i << "' counted times: "<< count(my_vector.begin(), my_vector.end(), i) << "\n";
+        // set in list
+        alphaCounted[i] = count(my_vector.begin(), my_vector.end(), i);
+
+        /*QUESTION COMPLETED 6*/
+        std::cout << i <<  ":" << alphaCounted[i] << "\n";
+    }
+
+    cout << "";
+    alphaTemp = alphaCounted;
+
+    while(alphaTemp.size() > 0) {
+        char k = 0;
+        int v = 0;
+        for(auto const elem : alphaTemp) {
+            if(elem.second >= v) {
+                k = elem.first;
+                v = elem.second;
+            }
+        }
+        alphaTemp.erase(alphaTemp.find(k));
+        alphaSortKey.push_back(k);
+        alphaSortValue.push_back(v);
+    }
+
+    /*7 COMPLETED */
+    for(int i = 0; i < 26; i++) {
+        cout << alphaSortKey[i] << "-" << alphaSortValue[i] << "\n";
     }
 
     // open file

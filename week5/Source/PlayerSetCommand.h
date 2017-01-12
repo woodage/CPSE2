@@ -8,13 +8,13 @@
 #include "ICommand.h"
 #include "Game.h"
 
-class ClickCommand : public ICommand {
+class PlayerSetCommand : public ICommand {
 private:
     Game &game;
     Tile &tile;
 
 public:
-    ClickCommand(Game &game, Tile &tile);
+    PlayerSetCommand(Game &game, Tile &tile);
     void execute() override;
     void undo() override;
 };

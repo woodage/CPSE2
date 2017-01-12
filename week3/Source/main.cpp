@@ -10,7 +10,6 @@ screenObject * screen_object_read( std::ifstream & input ){
     std::string name;
 
     input >> name;
-
     input >> position;
 
     if( name == "CIRCLE" ){
@@ -36,7 +35,6 @@ screenObject * screen_object_read( std::ifstream & input ){
         std::string filePath;
         input >> filePath;
         path = path + filePath;
-
         if (FILE *file = fopen(path.c_str(), "r")) {
             fclose(file);
             return new picture( position, filePath.c_str());
@@ -49,8 +47,6 @@ screenObject * screen_object_read( std::ifstream & input ){
         input >> endPosition;
 
         return new line(position, color, endPosition);
-    }else if( name == "" ){
-        throw end_of_file();
     }
 
     throw unknown_shape( name.c_str() );
@@ -107,6 +103,8 @@ void overWriteFile(screenObjects &scrObj) {
 
 int main( int argc, char *argv[] ){
 
+    bool isCriticalException = false;
+
     // create window
     sf::RenderWindow window{ sf::VideoMode{ 640, 480 }, "SFML window" };
 
@@ -124,10 +122,11 @@ int main( int argc, char *argv[] ){
         }
 
     } catch (end_of_file eof) {
-
-        // end of file
         std::cout << eof.what();
     } catch ( std::exception & problem ){
+
+        // end of file
+        isCriticalException = true;
 
         // problem in file
         std::cout << problem.what();
@@ -162,7 +161,9 @@ int main( int argc, char *argv[] ){
 
     }
 
-    overWriteFile(screenObjectContainer);
+    if(!isCriticalException) {
+        overWriteFile(screenObjectContainer);
+    }
 
     std::cout << "Terminating application\n";
 

@@ -87,7 +87,6 @@ void Game::draw() {
     window.clear(sf::Color::White);
     // loop each object inside game
     for(auto &tile : tiles) {
-
         tile.draw();
     }
     // display to screen

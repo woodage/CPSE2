@@ -14,7 +14,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(640, 480), "Week 2!");
 
     // creating ball instance
-    Ball ball(sf::Vector2f(150.f,160.f), window, sf::Vector2f(5.f, -2.f));
+    Ball ball(sf::Vector2f(250.f,360.f), window, sf::Vector2f(5.f, -2.f));
 
     // creating the walls
     Wall wall_top(sf::Vector2f(0.f, 0.f), window.getSize().x, 20.f, window);
@@ -35,10 +35,10 @@ int main()
         Action(sf::Keyboard::Right, [&]{ block.moveRight(); }),
 
         // ball interaction with walls
-        Action(wall_bottom.getRectangle(), ball.getRectangle(), [&] { ball.setMoveDirection(sf::Vector2f(-5.f, -2.f)); }),
-        Action(wall_top.getRectangle(), ball.getRectangle(), [&] { ball.setMoveDirection(sf::Vector2f(5.f, 2.f)); }),
-        Action(wall_right.getRectangle(), ball.getRectangle(), [&] { ball.setMoveDirection(sf::Vector2f(-5.f, 2.f)); }),
-        Action(wall_left.getRectangle(), ball.getRectangle(), [&] { ball.setMoveDirection(sf::Vector2f(5.f, -2.f)); }),
+        Action(wall_bottom.getRectangle(), ball.getRectangle(), [&] { ball.flipY(); }),
+        Action(wall_top.getRectangle(), ball.getRectangle(), [&] { ball.flipY(); }),
+        Action(wall_right.getRectangle(), ball.getRectangle(), [&] { ball.flipX(); }),
+        Action(wall_left.getRectangle(), ball.getRectangle(), [&] { ball.flipX(); }),
 
         // ball interaction with block
         Action( [&]{ ball.handleCollisionWithBlock(block); }),
@@ -61,6 +61,10 @@ int main()
         // update all defined actions
         for(auto &action : actions) {
             action();
+        }
+
+        while(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+
         }
 
         // draw

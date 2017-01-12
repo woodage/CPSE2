@@ -2,21 +2,20 @@
 // Created by robbie on 21-12-2016.
 //
 
-#include "ClickCommand.h"
+#include "PlayerSetCommand.h"
 
-ClickCommand::ClickCommand(Game &g, Tile &t): game(g), tile(t) {
+PlayerSetCommand::PlayerSetCommand(Game &g, Tile &t): game(g), tile(t) {
 
 }
 
-void ClickCommand::execute(){
+void PlayerSetCommand::execute(){
     tile.setSymbol(game.getIsPlayerOne() ? 'x' : 'o');
     game.draw();
     game.setIsPlayerOne(!game.getIsPlayerOne());
 }
 
-void ClickCommand::undo(){
+void PlayerSetCommand::undo(){
     tile.setSymbol('.');
     game.setIsPlayerOne(!game.getIsPlayerOne());
     game.draw();
-
 }
